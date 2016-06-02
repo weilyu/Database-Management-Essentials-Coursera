@@ -1,0 +1,120 @@
+Oracle Examples in Module 4
+
+Lesson 2
+
+1.
+SELECT * FROM Faculty;
+
+2. 
+-- Need hyphens in constant
+ SELECT *
+  FROM Faculty
+  WHERE FacNo = '543-21-0987';
+
+3.
+ SELECT FacFirstName, FacLastName, FacSalary
+  FROM Faculty;
+
+4.
+ SELECT FacFirstName, FacLastName, FacSalary
+  FROM Faculty
+  WHERE FacSalary > 65000 AND FacRank = 'PROF';
+
+5.
+SELECT FacFirstName, FacLastName, FacCity, 
+       FacSalary*1.1 AS IncreasedSalary, 
+       FacHireDate 
+ FROM Faculty 
+ WHERE (date_format(FacHireDate, '%Y')) > 2001;
+
+6.
+ SELECT * 
+  FROM Offering 
+  WHERE CourseNo LIKE 'IS%';
+
+7.
+SELECT FacFirstName, FacLastName, FacHireDate 
+ FROM Faculty 
+ WHERE FacHireDate BETWEEN '2004-01-01'
+ 
+   AND '2005-12-31';
+
+8.
+ SELECT OfferNo, CourseNo 
+  FROM Offering 
+  WHERE FacNo IS NULL AND OffTerm = 'SUMMER' 
+    AND OffYear = 2013;
+
+9.
+ SELECT OfferNo, CourseNo, FacNo 
+  FROM Offering 
+  WHERE (OffTerm = 'FALL' AND OffYear = 2012) 
+     OR (OffTerm = 'WINTER' AND OffYear = 2013);
+
+Lesson 4
+
+1.
+SELECT OfferNo, CourseNo, FacFirstName, 
+       FacLastName 
+ FROM Offering, Faculty 
+ WHERE OffTerm = 'FALL' AND OffYear = 2012 
+   AND FacRank = 'ASST' AND CourseNo LIKE 'IS%'
+   AND Faculty.FacNo = Offering.FacNo;
+
+2.
+SELECT OfferNo, CourseNo, FacFirstName, FacLastName  
+ FROM Offering INNER JOIN Faculty 
+   ON Faculty.FacNo = Offering.FacNo
+ WHERE OffTerm = 'FALL' AND OffYear = 2012 
+   AND FacRank = 'ASST' AND CourseNo LIKE 'IS%';
+
+3.
+SELECT OfferNo, Offering.CourseNo, OffDays,
+       CrsUnits, OffLocation, OffTime
+ FROM Faculty, Course, Offering 
+ WHERE Faculty.FacNo = Offering.FacNo
+   AND Offering.CourseNo = Course.CourseNo     
+   AND OffYear = 2012 AND OffTerm = 'FALL'  
+   AND FacFirstName = 'LEONARD' 
+   AND FacLastName = 'VINCE';
+
+4.
+SELECT OfferNo, Offering.CourseNo, OffDays,
+       CrsUnits, OffLocation, OffTime
+ FROM Offering INNER JOIN Course 
+   ON Offering.CourseNo = Course.CourseNo
+   INNER JOIN Faculty 
+      ON Offering.FacNo = Faculty.FacNo
+ WHERE OffYear = 2012 AND OffTerm = 'FALL'  
+   AND FacFirstName = 'LEONARD' 
+   AND FacLastName = 'VINCE';
+
+Lesson 5
+
+1.
+SELECT FacNo, FacRank, FacSalary 
+FROM Faculty 
+ORDER BY FacRank;
+
+2.
+SELECT FacRank, 
+       AVG(FacSalary) AS AvgSalary
+  FROM Faculty 
+  GROUP BY FacRank
+  ORDER BY FacRank;
+
+3.
+SELECT StdMajor, AVG(StdGPA) AS AvgGpa 
+ FROM Student
+ WHERE StdClass IN ('JR', 'SR')
+ GROUP BY StdMajor;
+
+4.
+SELECT StdMajor, AVG(StdGPA) AS AvgGpa 
+ FROM Student
+ WHERE StdClass IN ('JR', 'SR')
+ GROUP BY StdMajor
+ HAVING AVG(StdGPA) > 3.1;
+
+
+
