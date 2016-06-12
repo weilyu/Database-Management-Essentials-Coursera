@@ -12,8 +12,8 @@ LenderNo NOT NULL
 
 **Lender** (<u>LenderNo</u>, LendName)
 
-**DisburseLine** (<u>DateSent</u>, Amount, OriFee, GuarFee)
+**DisburseLine** (<u>LoanNo</u>, <u>DateSent</u>, Amount, OriFee, GuarFee)
 FOREIGN KEY(LoanNo) REFERENCE Loan
 LoanNo NOT NULL
 
-*M-N relationship rule NA*
+*The pk of DisburseLine is the combination of LoanNo and DateSent*
